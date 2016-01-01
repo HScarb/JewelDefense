@@ -1,0 +1,20 @@
+<Solution>
+  <PropertyGroup Name="JewelDefense" Version="2.3.3.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Project Name="MainScene.csd" Type="Scene" />
+        <Image Name="HelloWorld.png" />
+        <Project Name="TD_Layer.csd" Type="Layer" />
+        <Project Name="Jewel_Layer.csd" Type="Layer" />
+        <Folder Name="RES">
+          <Image Name="CannonTurret.png" />
+          <Image Name="FreezeTurret.png" />
+          <Image Name="MachineGunTurret.png" />
+          <Image Name="Jewel_Background_Body.png" />
+          <TTF Name="msyhbd.ttf" />
+        </Folder>
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
