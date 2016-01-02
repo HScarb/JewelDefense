@@ -62,6 +62,9 @@ bool Monster::initFromCsvFileByID(int iMonsterID)
 	m_endTileCoord = TILECOORD_END;
 
 	hasRemoved = false;
+	m_isMoveEnd = false;
+
+	schedule(schedule_selector(Monster::monsterLogic, this), 0.1f);
 
 	return true;
 }
@@ -119,6 +122,30 @@ void Monster::moveToTarget()
 
 void Monster::monsterLogic(float dt)
 {
+	GameMediator * gm = GameMediator::getInstance();
+	// set if monster is move end
+	if(this->getPosition().x >= m_mapLayer->positionForTileCoord(TILECOORD_END).x)
+	{
+		m_isMoveEnd = true;
+	}
+
+	if(this->m_isMoveEnd)
+	{
+		unscheduleAllSelectors();
+
+		NotificationCenter::getInstance()->postNotification("LifeChange", (Ref*)-1);
+		removeSelf();
+		return;
+	}
+
+	if(this->getHP() <= 0)
+	{
+		unscheduleAllSelectors();
+
+		// change money and clear HPbar
+		this->onDead();
+		this->removeSelf();
+	}
 }
 
 void Monster::removeSelf()
@@ -130,7 +157,8 @@ void Monster::removeSelf()
 	GameMediator * gm = GameMediator::getInstance();
 	gm->m_monsterList.eraseObject(this);
 
-
+	this->stopAllActions();
+	this->removeFromParentAndCleanup(true);
 }
 
 ///////// AStar
@@ -348,7 +376,6 @@ void Monster::popStepAnimate()
 //////// HP bar
 void Monster::onDead()
 {
-	this->removeFromParent();
 
 	int iMoneyChange = 3 * this->getLevel();
 	NotificationCenter::getInstance()->postNotification("MoneyChange", (Ref*)iMoneyChange);
