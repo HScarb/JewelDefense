@@ -275,5 +275,6 @@ void TDMapLayer::logic(float dt)
 		NotificationCenter::getInstance()->postNotification("AllMonsterDead");
 	}
 	// tower logic
-	m_towerManager->towerLogic(dt);
+//	m_towerManager->towerLogic(dt);
+
 }

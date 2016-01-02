@@ -282,6 +282,9 @@ Monster* Tower::getClosestTarget()
 	if(maxDistant < this->getAtkRange())
 	{
 		return closestTarget;
+
+		int ID = closestTarget->getModelID();
+		CCLOG("Target Model ID:%d", ID);
 	}
 	return nullptr;
 }
@@ -301,9 +304,14 @@ void Tower::turnToTarget()
 
 void Tower::towerLogic(float dt)
 {
-	if(this->m_atkMonster == nullptr)
+	if(this->m_atkMonster == nullptr || this->m_atkMonster->hasRemoved || this->m_atkMonster->getSprite() == nullptr)
 	{
 		this->setTarget(this->getClosestTarget());
+		if(m_atkMonster != nullptr)
+		{
+			int ID = getTarget()->getModelID();
+			CCLOG("Target Model ID:%d", ID);
+		}
 	}
 	else
 	{
@@ -334,14 +342,14 @@ bool MachineGunTower::init()
 	if (!Tower::initFromCsvFileByID(1))
 		return false;
 
-	schedule(schedule_selector(MachineGunTower::fire), this->getAtkSpeed());
+	schedule(schedule_selector(MachineGunTower::fire), this->getAtkSpeed() / 1000.0);
 
 	return true;
 }
 
 void MachineGunTower::fire(float dt)
 {
-	if(this->getTarget() != nullptr)
+	if(this->getTarget() != nullptr && !this->getTarget()->hasRemoved)
 	{
 		GameMediator * m = GameMediator::getInstance();
 
@@ -352,7 +360,9 @@ void MachineGunTower::fire(float dt)
 
 		auto projectile = MachineGunProjectile::createWithTargetPos(offscreenPoint);
 		projectile->setPosition(this->getPosition());
-		m->getMapLayer()->addChild(projectile);
+		projectile->setDamage(this->getCurAtk());
+		projectile->setSpeed(400);
+		m->getMapLayer()->addChild(projectile,LEVEL_BULLET_LAYER);
 	}
 }
 
@@ -370,12 +380,14 @@ bool FreezeTower::init()
 	if (!Tower::initFromCsvFileByID(2))
 		return false;
 
+	schedule(schedule_selector(FreezeTower::fire), this->getAtkSpeed() / 1000.0);
+
 	return true;
 }
 
 void FreezeTower::fire(float dt)
 {
-	if (this->getTarget() != nullptr)
+	if (this->getTarget() != nullptr && !this->getTarget()->hasRemoved)
 	{
 		GameMediator * m = GameMediator::getInstance();
 
@@ -386,7 +398,9 @@ void FreezeTower::fire(float dt)
 
 		auto projectile = FreezeProjectile::createWithTargetPos(offscreenPoint);
 		projectile->setPosition(this->getPosition());
-		m->getMapLayer()->addChild(projectile);
+		projectile->setDamage(this->getCurAtk());
+		projectile->setSpeed(350);
+		m->getMapLayer()->addChild(projectile, LEVEL_BULLET_LAYER);
 	}
 }
 
@@ -404,19 +418,23 @@ bool CannonTower::init()
 	if (!Tower::initFromCsvFileByID(3))
 		return false;
 
+	schedule(schedule_selector(CannonTower::fire), this->getAtkSpeed() / 1000.0);
+
 	return true;
 }
 
 void CannonTower::fire(float dt)
 {
-	if (this->getTarget() != nullptr)
+	if (this->getTarget() != nullptr && !this->getTarget()->hasRemoved)
 	{
 		GameMediator * m = GameMediator::getInstance();
 
 		CannonProjectile * projectile = CannonProjectile::createWithTarget(this->getTarget());
 		projectile->setPosition(this->getPosition());
 		projectile->setRotation(this->getRotation());
-		m->getMapLayer()->addChild(projectile);
+		projectile->setDamage(this->getCurAtk());
+		projectile->setSpeed(300);
+		m->getMapLayer()->addChild(projectile, LEVEL_BULLET_LAYER);
 	}
 }
 

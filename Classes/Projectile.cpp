@@ -2,6 +2,7 @@
 #include "Projectile.h"
 #include "GameMediator.h"
 #include "GlobalPath.h"
+#include "GlobalConsts.h"
 #include "Monster.h"
 USING_NS_CC;
 
@@ -67,7 +68,7 @@ bool MachineGunProjectile::initWithTargetPos(cocos2d::Vec2 pos)
 		return false;
 
 	this->setTargetPos(pos);
-
+	this->setSpeed(BULLETSPEED_MACHINEGUN);
 	moveToTargetPos();
 
 	return true;
@@ -116,7 +117,7 @@ bool FreezeProjectile::initWithTargetPos(cocos2d::Vec2 pos)
 		return false;
 
 	this->setTargetPos(pos);
-
+	this->setSpeed(BULLETSPEED_FREEZEARROW);
 	moveToTargetPos();
 
 	return true;
@@ -164,7 +165,7 @@ bool CannonProjectile::initWithTarget(Monster * monster)
 {
 	if (!Projectile::initWithFile(PATH_BULLET_ROCKET))
 		return false;
-
+	this->setSpeed(BULLETSPEED_CANNONROCKET);
 	m_target = monster;
 	angularVelocity = 5.0f;
 
@@ -178,6 +179,7 @@ void CannonProjectile::update(float delta)
 
 	if (gm->getMapLayer()->isOutOfMap(targetPos) || m_target->getHP() <= 0) {
 		removeSelf();
+		return;
 	}
 
 	if (this->getRect().intersectsRect(m_target->getRect()) && m_target->getHP() > 0)
@@ -185,6 +187,7 @@ void CannonProjectile::update(float delta)
 		m_target->setHP(m_target->getHP() - this->getDamage());
 
 		removeSelf();
+		return;
 	}
 
 	float radian = atan2f(targetPos.y - myPos.y, targetPos.x - myPos.x);

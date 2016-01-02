@@ -25,11 +25,11 @@ public:
 	void monsterLogic(float dt);
 	
 	void setMapLayer(TDMapLayer * mapLayer) { m_mapLayer = mapLayer; }
-
+	
+	bool hasRemoved;
 protected:
 	void removeSelf();
-
-	bool hasRemoved;
+	
 public:
 	// MapLayer
 	TDMapLayer * m_mapLayer;
