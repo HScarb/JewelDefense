@@ -1,5 +1,5 @@
 // Tower.cpp
-#include "Tower.h"
+/*#include "Tower.h"
 #include "CsvUtil.h"
 #include "EnumTDProp.h"
 #include "GlobalPath.h"
@@ -267,7 +267,7 @@ m_atkMonster记录了英雄当前锁定的攻击目标
 如果攻击目标不为空，且英雄的攻击冷却结束，则调用atk函数进行攻击
 判断攻击目标是否离开了英雄的攻击范围，调用checkAimIsOutOfRange函数进行判断，并且进行一些处理
 
-*/
+#1#
 void Tower::checkAtkMonster(float ft)
 {
 	auto monsterList = GameMediator::getInstance()->m_monsterList;
@@ -502,3 +502,4 @@ void CannonTower::atk()
 		this->scheduleOnce(schedule_selector(CannonTower::atkCoolDownEnd), getAtkSpeed() / 1000.0f);
 	}
 }
+*/

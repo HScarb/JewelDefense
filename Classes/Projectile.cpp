@@ -91,7 +91,7 @@ void MachineGunProjectile::moveToTargetPos()
 	float distance = ccpDistance(this->getPosition(), this->getTargetPos());
 	float moveDur = distance / (float)m_iSpeed;
 	auto moveTo = MoveTo::create(moveDur, this->getTargetPos());
-	auto moveDone = CallFunc::create(CC_CALLBACK_0(removeSelf, this));
+	auto moveDone = CallFunc::create(CC_CALLBACK_0(MachineGunProjectile::removeSelf, this));
 	this->runAction(Sequence::create(moveTo, moveDone, nullptr));
 }
 
@@ -141,7 +141,7 @@ void FreezeProjectile::moveToTargetPos()
 	float distance = ccpDistance(this->getPosition(), this->getTargetPos());
 	float moveDur = distance / (float)m_iSpeed;
 	auto moveTo = MoveTo::create(moveDur, this->getTargetPos());
-	auto moveDone = CallFunc::create(CC_CALLBACK_0(removeSelf, this));
+	auto moveDone = CallFunc::create(CC_CALLBACK_0(FreezeProjectile::removeSelf, this));
 	this->runAction(Sequence::create(moveTo, moveDone, nullptr));
 }
 

@@ -5,7 +5,7 @@
 #include "Monster.h"
 #include "BulletManager.h"
 #include "ui\CocosGUI.h"
-
+/*
 class Tower : public Entity
 {
 public:
@@ -109,3 +109,4 @@ public:
 protected:
 	virtual void atk() override;
 };
+*/
