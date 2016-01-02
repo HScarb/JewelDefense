@@ -3,6 +3,7 @@
 #include "GameMediator.h"
 #include "GlobalConsts.h"
 #include "Tower.h"
+#include "TowerNew.h"
 #include "TowerManager.h"
 USING_NS_CC;
 

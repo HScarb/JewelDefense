@@ -1,5 +1,6 @@
 // TowerManager.cpp
 #include "TowerManager.h"
+#include "TowerNew.h"
 USING_NS_CC;
 
 TowerManager::TowerManager()
@@ -62,10 +63,10 @@ void TowerManager::buildOnPosition(Vec2 pos)
 
 void TowerManager::towerLogic(float dt)
 {
-	for (auto tower : m_towerList)
-	{
-		tower->checkAtkMonster(dt);
-	}
+//	for (auto tower : m_towerList)
+//	{
+//		tower->checkAtkMonster(dt);
+//	}
 }
 
 void TowerManager::addToTowerList(Tower* tower)

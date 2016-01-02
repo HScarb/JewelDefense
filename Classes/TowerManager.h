@@ -2,6 +2,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "Tower.h"
+class Tower;
 
 class TowerManager : public cocos2d::Node
 {
